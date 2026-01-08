@@ -18,7 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import viewsets, serializers, routers
 
-from .models import Product
+from .models import Product, SiteSettings
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -31,6 +33,12 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+@api_view(['GET'])
+def site_settings(request):
+    settings = SiteSettings.objects.first()
+    if not settings:
+        return Response({'orders_enabled': True})
+    return Response({'orders_enabled': settings.orders_enabled})
 
 router = routers.DefaultRouter()
 router.register(r'products', ProductViewSet)
@@ -39,5 +47,5 @@ router.register(r'products', ProductViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-
+    path('api/settings/', site_settings),
 ]
