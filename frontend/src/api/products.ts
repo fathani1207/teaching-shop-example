@@ -1,3 +1,6 @@
+// Feature: Site Settings
+export const API_VERSION = "2.0-settings";
+
 export interface Product {
   id: number;
   name: string;
