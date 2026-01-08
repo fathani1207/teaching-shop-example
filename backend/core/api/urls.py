@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import viewsets, serializers, routers
 
-from .models import Product
+from .models import Product, Carrier
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -26,15 +26,22 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
 
+class CarrierSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Carrier
+        fields = '__all__'
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+class CarrierViewSet(viewsets.ModelViewSet):
+    queryset = Carrier.objects.all()
+    serializer_class = CarrierSerializer
 
 router = routers.DefaultRouter()
 router.register(r'products', ProductViewSet)
-
+router.register(r'carriers', CarrierViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
