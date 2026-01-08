@@ -10,3 +10,13 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+class SiteSettings(models.Model):
+    orders_enabled = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name_plural = "Site Settings"
+
+    def __str__(self):
+        return "Site Settings"
+
