@@ -1,5 +1,5 @@
-import { useProducts } from '../contexts/ProductsContext';
-import Spinner from './Spinner';
+import { useProducts } from "../contexts/ProductsContext";
+import Spinner from "./Spinner";
 
 export default function HeroSection() {
   const { loading, products } = useProducts();

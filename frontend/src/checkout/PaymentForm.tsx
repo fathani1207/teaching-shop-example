@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import type { FormEvent } from 'react';
+import { useState } from "react";
+import type { FormEvent } from "react";
 
 type Props = {
   onSubmit: (cardNumber: string) => void;
@@ -8,14 +8,14 @@ type Props = {
 };
 
 export default function PaymentForm({ onSubmit, loading, price }: Props) {
-  const [cardNumber, setCardNumber] = useState('');
+  const [cardNumber, setCardNumber] = useState("");
 
   const formatCardNumber = (value: string) => {
-    return value.replace(/(\d{4})(?=\d)/g, '$1 ');
+    return value.replace(/(\d{4})(?=\d)/g, "$1 ");
   };
 
   const handleCardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value.replace(/\D/g, '').slice(0, 16);
+    const raw = e.target.value.replace(/\D/g, "").slice(0, 16);
     setCardNumber(raw);
   };
 
@@ -57,7 +57,7 @@ export default function PaymentForm({ onSubmit, loading, price }: Props) {
         disabled={loading || cardNumber.length !== 16}
         className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light disabled:opacity-50"
       >
-        {loading ? 'Processing...' : `Pay $${price.toFixed(2)}`}
+        {loading ? "Processing..." : `Pay $${price.toFixed(2)}`}
       </button>
     </form>
   );

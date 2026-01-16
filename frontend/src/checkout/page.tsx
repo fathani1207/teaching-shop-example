@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { useProducts } from '../contexts/ProductsContext';
-import { createOrder } from '../api/orders';
-import toast from 'react-hot-toast';
-import { PageContainer } from '../components';
-import ProductPreview from './ProductPreview';
-import PaymentForm from './PaymentForm';
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { useProducts } from "../contexts/ProductsContext";
+import { createOrder } from "../api/orders";
+import toast from "react-hot-toast";
+import { PageContainer } from "../components";
+import ProductPreview from "./ProductPreview";
+import PaymentForm from "./PaymentForm";
 
 export default function CheckoutPage() {
   const { productId } = useParams<{ productId: string }>();
@@ -32,10 +32,10 @@ export default function CheckoutPage() {
 
     try {
       const order = await createOrder(token, product.id, cardNumber);
-      toast.success('Order placed successfully!');
+      toast.success("Order placed successfully!");
       navigate(`/order/${order.id}`);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Order failed');
+      toast.error(error instanceof Error ? error.message : "Order failed");
     } finally {
       setLoading(false);
     }
@@ -47,7 +47,11 @@ export default function CheckoutPage() {
         Checkout
       </h1>
       <ProductPreview product={product} />
-      <PaymentForm onSubmit={handlePayment} loading={loading} price={product.price} />
+      <PaymentForm
+        onSubmit={handlePayment}
+        loading={loading}
+        price={product.price}
+      />
     </PageContainer>
   );
 }

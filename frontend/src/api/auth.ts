@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = "http://localhost:8000/api";
 
 interface User {
   id: number;
@@ -16,11 +16,14 @@ interface AuthError {
   error: string;
 }
 
-export async function login(username: string, password: string): Promise<AuthResponse> {
+export async function login(
+  username: string,
+  password: string,
+): Promise<AuthResponse> {
   const response = await fetch(`${API_BASE}/auth/login/`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ username, password }),
   });
@@ -28,17 +31,21 @@ export async function login(username: string, password: string): Promise<AuthRes
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error((data as AuthError).error || 'Login failed');
+    throw new Error((data as AuthError).error || "Login failed");
   }
 
   return data as AuthResponse;
 }
 
-export async function register(username: string, email: string, password: string): Promise<AuthResponse> {
+export async function register(
+  username: string,
+  email: string,
+  password: string,
+): Promise<AuthResponse> {
   const response = await fetch(`${API_BASE}/auth/register/`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ username, email, password }),
   });
@@ -46,7 +53,7 @@ export async function register(username: string, email: string, password: string
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error((data as AuthError).error || 'Registration failed');
+    throw new Error((data as AuthError).error || "Registration failed");
   }
 
   return data as AuthResponse;
@@ -55,12 +62,12 @@ export async function register(username: string, email: string, password: string
 export async function getMe(token: string): Promise<User> {
   const response = await fetch(`${API_BASE}/auth/me/`, {
     headers: {
-      'Authorization': `Token ${token}`,
+      Authorization: `Token ${token}`,
     },
   });
 
   if (!response.ok) {
-    throw new Error('Token validation failed');
+    throw new Error("Token validation failed");
   }
 
   return response.json();

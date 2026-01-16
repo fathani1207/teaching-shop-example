@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router-dom';
-import { useProducts } from '../contexts/ProductsContext';
-import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from "react-router-dom";
+import { useProducts } from "../contexts/ProductsContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function ProductsGrid() {
   const { products } = useProducts();
@@ -9,7 +9,7 @@ export default function ProductsGrid() {
 
   const handleBuyNow = (productId: number) => {
     if (!isAuthenticated) {
-      navigate('/login');
+      navigate("/login");
     } else {
       navigate(`/checkout/${productId}`);
     }

@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = "http://localhost:8000/api";
 
 export interface Order {
   id: number;
@@ -7,7 +7,7 @@ export interface Order {
   product_price: string;
   product_image: string;
   card_last_four: string;
-  status: 'pending' | 'paid' | 'failed';
+  status: "pending" | "paid" | "failed";
   created_at: string;
 }
 
@@ -21,13 +21,13 @@ interface OrderError {
 export async function createOrder(
   token: string,
   productId: number,
-  cardNumber: string
+  cardNumber: string,
 ): Promise<CreateOrderResponse> {
   const response = await fetch(`${API_BASE}/orders/`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Token ${token}`,
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
     },
     body: JSON.stringify({
       product_id: productId,
@@ -38,7 +38,7 @@ export async function createOrder(
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error((data as OrderError).error || 'Order creation failed');
+    throw new Error((data as OrderError).error || "Order creation failed");
   }
 
   return data as CreateOrderResponse;
@@ -47,12 +47,12 @@ export async function createOrder(
 export async function getOrders(token: string): Promise<Order[]> {
   const response = await fetch(`${API_BASE}/orders/`, {
     headers: {
-      'Authorization': `Token ${token}`,
+      Authorization: `Token ${token}`,
     },
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch orders');
+    throw new Error("Failed to fetch orders");
   }
 
   return response.json();
@@ -61,12 +61,12 @@ export async function getOrders(token: string): Promise<Order[]> {
 export async function getOrder(token: string, orderId: number): Promise<Order> {
   const response = await fetch(`${API_BASE}/orders/${orderId}/`, {
     headers: {
-      'Authorization': `Token ${token}`,
+      Authorization: `Token ${token}`,
     },
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch order');
+    throw new Error("Failed to fetch order");
   }
 
   return response.json();
@@ -81,15 +81,15 @@ export interface AdminOrder extends Order {
 export async function getAdminOrders(token: string): Promise<AdminOrder[]> {
   const response = await fetch(`${API_BASE}/admin/orders/`, {
     headers: {
-      'Authorization': `Token ${token}`,
+      Authorization: `Token ${token}`,
     },
   });
 
   if (!response.ok) {
     if (response.status === 403) {
-      throw new Error('Access denied. Admin privileges required.');
+      throw new Error("Access denied. Admin privileges required.");
     }
-    throw new Error('Failed to fetch orders');
+    throw new Error("Failed to fetch orders");
   }
 
   return response.json();

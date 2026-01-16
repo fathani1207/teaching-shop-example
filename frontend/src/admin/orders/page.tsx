@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { getAdminOrders, type AdminOrder } from '../../api/orders';
-import { LoadingSpinner, EmptyState, PageContainer } from '../../components';
-import AdminOrderCard from './AdminOrderCard';
-import DailyRevenueChart from './DailyRevenueChart';
+import { useState, useEffect } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { getAdminOrders, type AdminOrder } from "../../api/orders";
+import { LoadingSpinner, EmptyState, PageContainer } from "../../components";
+import AdminOrderCard from "./AdminOrderCard";
+import DailyRevenueChart from "./DailyRevenueChart";
 
 export default function AdminOrdersPage() {
   const { token } = useAuth();
@@ -19,7 +19,7 @@ export default function AdminOrdersPage() {
         const ordersData = await getAdminOrders(token);
         setOrders(ordersData);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load orders');
+        setError(err instanceof Error ? err.message : "Failed to load orders");
       } finally {
         setLoading(false);
       }

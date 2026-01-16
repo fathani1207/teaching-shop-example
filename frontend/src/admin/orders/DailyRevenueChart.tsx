@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import type { AdminOrder } from '../../api/orders';
+import { useMemo } from "react";
+import type { AdminOrder } from "../../api/orders";
 
 type Props = {
   orders: AdminOrder[];
@@ -12,8 +12,8 @@ interface DailyRevenue {
 }
 
 function formatDisplayDate(dateStr: string): string {
-  const date = new Date(dateStr + 'T00:00:00');
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const date = new Date(dateStr + "T00:00:00");
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 function formatRevenue(amount: number): string {
@@ -24,16 +24,16 @@ function formatRevenue(amount: number): string {
 }
 
 function calculateDailyRevenue(orders: AdminOrder[]): DailyRevenue[] {
-  const paidOrders = orders.filter((order) => order.status === 'paid');
+  const paidOrders = orders.filter((order) => order.status === "paid");
 
   const revenueByDay = paidOrders.reduce(
     (acc, order) => {
-      const date = order.created_at.split('T')[0];
+      const date = order.created_at.split("T")[0];
       const price = parseFloat(order.product_price);
       acc[date] = (acc[date] || 0) + price;
       return acc;
     },
-    {} as Record<string, number>
+    {} as Record<string, number>,
   );
 
   return Object.entries(revenueByDay)
@@ -51,12 +51,12 @@ export default function DailyRevenueChart({ orders }: Props) {
 
   const maxRevenue = useMemo(
     () => Math.max(...dailyRevenue.map((d) => d.revenue), 1),
-    [dailyRevenue]
+    [dailyRevenue],
   );
 
   const totalRevenue = useMemo(
     () => dailyRevenue.reduce((sum, d) => sum + d.revenue, 0),
-    [dailyRevenue]
+    [dailyRevenue],
   );
 
   if (dailyRevenue.length === 0) {
@@ -75,7 +75,7 @@ export default function DailyRevenueChart({ orders }: Props) {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold text-gray-800">Daily Revenue</h2>
         <p className="text-sm text-gray-500">
-          Total:{' '}
+          Total:{" "}
           <span className="font-semibold text-gray-800">
             ${totalRevenue.toFixed(2)}
           </span>

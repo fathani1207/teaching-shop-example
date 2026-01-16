@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { LoadingSpinner } from '../components';
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { LoadingSpinner } from "../components";
 
 export default function ProtectedLayout() {
   const { isAuthenticated } = useAuth();
@@ -9,7 +9,7 @@ export default function ProtectedLayout() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login');
+      navigate("/login");
     }
   }, [isAuthenticated, navigate]);
 

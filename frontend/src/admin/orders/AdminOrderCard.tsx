@@ -1,5 +1,5 @@
-import { StatusBadge } from '../../components';
-import type { AdminOrder } from '../../api/orders';
+import { StatusBadge } from "../../components";
+import type { AdminOrder } from "../../api/orders";
 
 type Props = {
   order: AdminOrder;
@@ -32,7 +32,7 @@ export default function AdminOrderCard({ order }: Props) {
               ${parseFloat(order.product_price).toFixed(2)}
             </p>
             <p className="text-xs text-gray-500">
-              Card: ****{order.card_last_four} |{' '}
+              Card: ****{order.card_last_four} |{" "}
               {new Date(order.created_at).toLocaleDateString()}
             </p>
           </div>
