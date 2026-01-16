@@ -6,10 +6,10 @@ working together, just like a real user would interact with the system.
 """
 
 from django.test import TestCase
-from rest_framework.test import APIClient
 from rest_framework import status
+from rest_framework.test import APIClient
 
-from ..models import Product, Order
+from ..models import Product
 
 
 class UserPurchaseFlowTests(TestCase):
@@ -21,10 +21,7 @@ class UserPurchaseFlowTests(TestCase):
 
         # Create a product that users can purchase
         self.product = Product.objects.create(
-            name='Baby Onesie',
-            description='Comfortable cotton onesie',
-            price='15.99',
-            imageUrl='/onesie.jpg'
+            name="Baby Onesie", description="Comfortable cotton onesie", price="15.99", imageUrl="/onesie.jpg"
         )
 
     def test_new_user_can_register_and_purchase(self):
@@ -32,22 +29,20 @@ class UserPurchaseFlowTests(TestCase):
         Complete flow: Register -> Browse Products -> Create Order
         """
         # Step 1: Register a new user
-        register_response = self.client.post('/api/auth/register/', {
-            'username': 'newbuyer',
-            'email': 'buyer@example.com',
-            'password': 'securepass123'
-        })
+        register_response = self.client.post(
+            "/api/auth/register/", {"username": "newbuyer", "email": "buyer@example.com", "password": "securepass123"}
+        )
 
         # Assert registration succeeded (status 201)
         self.assertEqual(register_response.status_code, status.HTTP_201_CREATED)
 
         # Extract the token
-        self.assertIn('token', register_response.data)
-        token = register_response.data['token']
+        self.assertIn("token", register_response.data)
+        token = register_response.data["token"]
         self.assertTrue(token)
 
         # Step 2: Get the list of products
-        products_response = self.client.get('/api/products/')
+        products_response = self.client.get("/api/products/")
 
         # Assert products endpoint returns 200
         self.assertEqual(products_response.status_code, status.HTTP_200_OK)
@@ -56,48 +51,47 @@ class UserPurchaseFlowTests(TestCase):
         self.assertGreaterEqual(len(products_response.data), 1)
 
         # Get the ID of the first product
-        self.assertIn('id', products_response.data[0])
-        product_id = products_response.data[0]['id']
+        self.assertIn("id", products_response.data[0])
+        product_id = products_response.data[0]["id"]
 
         # Step 3: Create an order (requires authentication)
-        self.client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
-        order_response = self.client.post('/api/orders/', {
-            'product_id': product_id,
-            'card_number': '4111111111111111'  # Valid test card
-        })
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+        order_response = self.client.post(
+            "/api/orders/",
+            {
+                "product_id": product_id,
+                "card_number": "4111111111111111",  # Valid test card
+            },
+        )
 
         # Assert order creation succeeded (status 201)
         self.assertEqual(order_response.status_code, status.HTTP_201_CREATED)
 
         # Assert order status is 'paid'
-        self.assertIn('status', order_response.data)
-        self.assertEqual(order_response.data['status'], 'paid')
+        self.assertIn("status", order_response.data)
+        self.assertEqual(order_response.data["status"], "paid")
 
         # Assert card_last_four is '1111'
-        self.assertIn('card_last_four', order_response.data)
-        self.assertEqual(order_response.data['card_last_four'], '1111')
+        self.assertIn("card_last_four", order_response.data)
+        self.assertEqual(order_response.data["card_last_four"], "1111")
 
     def test_user_can_view_their_orders(self):
         """
         Flow: Register -> Purchase -> View Orders
         """
         # Step 1: Register and get token
-        register_response = self.client.post('/api/auth/register/', {
-            'username': 'orderviewer',
-            'email': 'viewer@example.com',
-            'password': 'viewerpass123'
-        })
-        token = register_response.data['token']
+        register_response = self.client.post(
+            "/api/auth/register/",
+            {"username": "orderviewer", "email": "viewer@example.com", "password": "viewerpass123"},
+        )
+        token = register_response.data["token"]
 
         # Step 2: Create an order
-        self.client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
-        self.client.post('/api/orders/', {
-            'product_id': self.product.id,
-            'card_number': '4222222222222222'
-        })
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+        self.client.post("/api/orders/", {"product_id": self.product.id, "card_number": "4222222222222222"})
 
         # Step 3: Get list of orders
-        orders_response = self.client.get('/api/orders/')
+        orders_response = self.client.get("/api/orders/")
 
         # Assert orders endpoint returns 200
         self.assertEqual(orders_response.status_code, status.HTTP_200_OK)
@@ -109,10 +103,10 @@ class UserPurchaseFlowTests(TestCase):
         # (selon API: soit "product_name", soit "product" avec "name")
         order = orders_response.data[0]
 
-        if 'product_name' in order:
-            self.assertEqual(order['product_name'], self.product.name)
-        elif 'product' in order and isinstance(order['product'], dict) and 'name' in order['product']:
-            self.assertEqual(order['product']['name'], self.product.name)
+        if "product_name" in order:
+            self.assertEqual(order["product_name"], self.product.name)
+        elif "product" in order and isinstance(order["product"], dict) and "name" in order["product"]:
+            self.assertEqual(order["product"]["name"], self.product.name)
         else:
             self.fail(f"Order payload does not contain product name in expected format: {order}")
 
@@ -124,55 +118,48 @@ class PaymentValidationTests(TestCase):
         """Set up authenticated user and product"""
         self.client = APIClient()
         self.product = Product.objects.create(
-            name='Test Item',
-            description='Item for payment tests',
-            price='25.00',
-            imageUrl='/test.jpg'
+            name="Test Item", description="Item for payment tests", price="25.00", imageUrl="/test.jpg"
         )
 
         # Register and authenticate a user
-        response = self.client.post('/api/auth/register/', {
-            'username': 'paymentuser',
-            'email': 'payment@example.com',
-            'password': 'paymentpass123'
-        })
-        token = response.data['token']
-        self.client.credentials(HTTP_AUTHORIZATION=f'Token {token}')
+        response = self.client.post(
+            "/api/auth/register/",
+            {"username": "paymentuser", "email": "payment@example.com", "password": "paymentpass123"},
+        )
+        token = response.data["token"]
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
     def test_valid_card_creates_paid_order(self):
         """A valid 16-digit card number should create a paid order"""
-        response = self.client.post('/api/orders/', {
-            'product_id': self.product.id,
-            'card_number': '1234567890123456'
-        })
+        response = self.client.post("/api/orders/", {"product_id": self.product.id, "card_number": "1234567890123456"})
 
         # Assert status is 201 Created
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # Assert order status is 'paid'
-        self.assertIn('status', response.data)
-        self.assertEqual(response.data['status'], 'paid')
+        self.assertIn("status", response.data)
+        self.assertEqual(response.data["status"], "paid")
 
     def test_declined_card_returns_payment_error(self):
         """Cards starting with 0000 should be declined"""
-        response = self.client.post('/api/orders/', {
-            'product_id': self.product.id,
-            'card_number': '0000123456789012'
-        })
+        response = self.client.post("/api/orders/", {"product_id": self.product.id, "card_number": "0000123456789012"})
 
         # Assert status is 402 Payment Required
         self.assertEqual(response.status_code, status.HTTP_402_PAYMENT_REQUIRED)
 
         # Assert response contains an 'error' message
-        self.assertIn('error', response.data)
-        self.assertTrue(response.data['error'])
+        self.assertIn("error", response.data)
+        self.assertTrue(response.data["error"])
 
     def test_invalid_card_length_is_rejected(self):
         """Card numbers must be exactly 16 digits"""
-        response = self.client.post('/api/orders/', {
-            'product_id': self.product.id,
-            'card_number': '123'  # Too short
-        })
+        response = self.client.post(
+            "/api/orders/",
+            {
+                "product_id": self.product.id,
+                "card_number": "123",  # Too short
+            },
+        )
 
         # Assert status is 400 Bad Request
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
