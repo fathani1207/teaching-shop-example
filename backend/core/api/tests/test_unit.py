@@ -31,7 +31,7 @@ class ProductModelTests(TestCase):
             name="Baby Dress", 
             description="Cute floral dress", 
             price="29.99", 
-            imageUrl="/images/dress.jpg"
+            imageUrl="/images/dress.jpg",
         )
 
         self.assertEqual(product.name, "Baby Dress")
@@ -51,13 +51,13 @@ class ProductAPITests(TestCase):
             name="Test Product 1", 
             description="First test product", 
             price="10.00", 
-            imageUrl="/test1.jpg"
+            imageUrl="/test1.jpg",
         )
         Product.objects.create(
             name="Test Product 2", 
             description="Second test product", 
             price="20.00", 
-            imageUrl="/test2.jpg"
+            imageUrl="/test2.jpg",
         )
 
     def test_list_products_returns_200(self):
