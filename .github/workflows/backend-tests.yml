@@ -27,3 +27,6 @@ jobs:
         run: uv sync
       - name: Run unit tests
         run: cd core && uv run python manage.py test api.tests.test_unit
+      - name: Run integration tests
+        run: cd core && uv run python manage.py test api.tests.test_integration
+
