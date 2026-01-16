@@ -1,0 +1,47 @@
+name: Frontend CI
+
+on:
+  # TODO: Configure trigger
+  # - Pull requests to main branch
+  # - Only when frontend/ files change
+  pull_request:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+
+jobs:
+  quality:
+    # TODO: Configure the job
+    # - What runner? (ubuntu-latest)
+    # - What working directory? (frontend/)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      # TODO: Add steps for:
+      # 1. Checkout code
+      # 2. Set up Node.js (version 20, with npm caching)
+      # 3. Install dependencies (npm ci)
+      # 4. Check formatting
+      # 5. Run linter
+      # 6. Run tests
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Check formatting
+        run: npx prettier --check .
+      - name: Run linter
+        run: npx eslint .
+      - name: Run tests
+        run: npm test 
+        env:
+          CI: true
+          
