@@ -1,0 +1,35 @@
+name: Frontend CI
+
+on:
+ pull_request:
+  branches: [main]
+  paths: 
+  - 'frontend/**'
+jobs:
+ quality:
+  runs-on: ubuntu-latest
+  defaults:
+   run:
+    working-directory: frontend
+
+  steps:
+  - name: Checkout code
+    uses: actions/checkout@v6
+              
+  - name: Set up Node.js (version 20, with npm caching)
+    uses: actions/setup-node@v6
+    with:
+     node-version: 20
+     cache: 'npm'
+
+  - name: Install dependencies (npm ci)
+    run: npm ci
+
+  - name: Check formatting
+    run: npm run format:check
+
+  - name: Run linter
+    run: npm run format
+
+  - name: Run tests
+    run: npm test
