@@ -11,6 +11,10 @@ COPY pyproject.toml uv.lock ./
 # TODO3
 RUN uv sync --frozen
 
+# Install netcat pour la boucle de retry
+RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
+
+
 COPY . .
 
 # TODO4
@@ -29,3 +33,4 @@ COPY pyproject.toml uv.lock ./
 RUN uv sync --frozen
 
 COPY . .
+
