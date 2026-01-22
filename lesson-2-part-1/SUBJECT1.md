@@ -1,5 +1,7 @@
 # Subject 1: Backend CI Pipeline
 
+IMPORTANT: use your fork
+
 In this exercise, you will create a GitHub Actions workflow to automatically check code quality on the backend whenever a Pull Request is opened.
 
 **Learning Objectives:**
@@ -190,7 +192,7 @@ cd core && uv run python manage.py test
 
 ### CI validation
 
-1. Create a new branch: `git checkout -b feature/backend-ci`
+1. Create a new branch: `git checkout -b chore/backend-ci-YOURNAME`
 2. Commit your changes (ruff.toml, pyproject.toml, workflow file)
 3. Push and create a Pull Request
 4. Check the "Actions" tab - your workflow should run
