@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: boutique
+      POSTGRES_USER: boutique
+      POSTGRES_PASSWORD: boutique
+    # TODO: Add a volume to persist the database data
+    # PostgreSQL stores data in /var/lib/postgresql/data
+    # Syntax:
+    #   volumes:
+    #     - volume-name:/path/in/container
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U boutique -d boutique"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  backend:
+    # TODO 1: Set the build context to the backend directory
+    # Syntax: build: ./relative/path
+    build: ./backend
+
+
+    # TODO 2: Map port 8000 from container to host
+    # Syntax:
+    #   ports:
+    #     - "host_port:container_port"
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_HOST=db          # Service name = hostname!
+      - DATABASE_NAME=boutique
+      - DATABASE_USER=boutique
+      - DATABASE_PASSWORD=boutique
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+# TODO: Declare the volume
+# Syntax:
+# volumes:
+#   volume-name:
+volumes:
+  db-data:
