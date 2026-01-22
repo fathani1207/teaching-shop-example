@@ -13,13 +13,23 @@ dependencies = [
     { name = "psycopg2-binary" },
 ]
 
+[package.optional-dependencies]
+dev = [
+    { name = "ruff" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "django", specifier = ">=5.2.6" },
     { name = "django-cors-headers", specifier = ">=4.8.0" },
     { name = "djangorestframework", specifier = ">=3.16.1" },
+
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.8.0" },
+
     { name = "psycopg2-binary", specifier = ">=2.9.9" },
+
 ]
+provides-extras = ["dev"]
 
 [[package]]
 name = "asgiref"
