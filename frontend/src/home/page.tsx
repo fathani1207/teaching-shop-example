@@ -1,6 +1,6 @@
-import HeroSection from './HeroSection';
-import ProductsGrid from './ProductsGrid';
-import BrandValues from './BrandValues';
+import HeroSection from "./HeroSection";
+import ProductsGrid from "./ProductsGrid";
+import BrandValues from "./BrandValues";
 
 export default function HomePage() {
   return (

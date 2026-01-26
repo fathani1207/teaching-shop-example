@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import { login } from '../../api/auth';
-import toast from 'react-hot-toast';
-import AuthFormLayout from '../AuthFormLayout';
-import FormField from '../FormField';
-import SubmitButton from '../SubmitButton';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import { login } from "../../api/auth";
+import toast from "react-hot-toast";
+import AuthFormLayout from "../AuthFormLayout";
+import FormField from "../FormField";
+import SubmitButton from "../SubmitButton";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login: authLogin } = useAuth();
@@ -21,10 +21,10 @@ export default function LoginPage() {
     try {
       const response = await login(username, password);
       authLogin(response.token, response.user);
-      toast.success('Logged in successfully!');
-      navigate('/');
+      toast.success("Logged in successfully!");
+      navigate("/");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Login failed');
+      toast.error(error instanceof Error ? error.message : "Login failed");
     } finally {
       setLoading(false);
     }
@@ -57,7 +57,11 @@ export default function LoginPage() {
         />
       </div>
       <div>
-        <SubmitButton loading={loading} loadingText="Signing in..." text="Sign in" />
+        <SubmitButton
+          loading={loading}
+          loadingText="Signing in..."
+          text="Sign in"
+        />
       </div>
     </AuthFormLayout>
   );

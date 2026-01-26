@@ -1,4 +1,4 @@
-import type { ChangeEventHandler } from 'react';
+import type { ChangeEventHandler } from "react";
 
 type Props = {
   id: string;
@@ -6,15 +6,15 @@ type Props = {
   placeholder: string;
   value: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
-  position: 'first' | 'middle' | 'last' | 'only';
+  position: "first" | "middle" | "last" | "only";
   required?: boolean;
 };
 
 const positionClasses = {
-  first: 'rounded-t-md',
-  middle: '',
-  last: 'rounded-b-md',
-  only: 'rounded-md',
+  first: "rounded-t-md",
+  middle: "",
+  last: "rounded-b-md",
+  only: "rounded-md",
 };
 
 export default function FormField({

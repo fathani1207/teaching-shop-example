@@ -1,4 +1,4 @@
-import type { Order } from '../../api/orders';
+import type { Order } from "../../api/orders";
 
 type Props = {
   order: Order;

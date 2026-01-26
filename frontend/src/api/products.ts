@@ -40,8 +40,8 @@ export async function fetchProducts(): Promise<Product[]> {
         data.map((p: RawProduct) => ({
           ...p,
           price: parseFloat(p.price),
-        }))
-      )
+        })),
+      ),
   );
   return response;
 }

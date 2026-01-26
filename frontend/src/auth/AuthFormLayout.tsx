@@ -1,5 +1,5 @@
-import type { ReactNode, FormEventHandler } from 'react';
-import { Link } from 'react-router-dom';
+import type { ReactNode, FormEventHandler } from "react";
+import { Link } from "react-router-dom";
 
 type Props = {
   title: string;
@@ -26,7 +26,7 @@ export default function AuthFormLayout({
             {title}
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            {subtitle}{' '}
+            {subtitle}{" "}
             <Link
               to={linkTo}
               className="font-medium text-primary hover:text-primary-light"

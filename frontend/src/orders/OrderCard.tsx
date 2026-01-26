@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { StatusBadge } from '../components';
-import type { Order } from '../api/orders';
+import { Link } from "react-router-dom";
+import { StatusBadge } from "../components";
+import type { Order } from "../api/orders";
 
 type Props = {
   order: Order;
@@ -47,6 +47,8 @@ export default function OrderCard({ order, linkable = true }: Props) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">{content}</div>
+    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      {content}
+    </div>
   );
 }

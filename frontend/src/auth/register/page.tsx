@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import { register } from '../../api/auth';
-import toast from 'react-hot-toast';
-import AuthFormLayout from '../AuthFormLayout';
-import FormField from '../FormField';
-import SubmitButton from '../SubmitButton';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import { register } from "../../api/auth";
+import toast from "react-hot-toast";
+import AuthFormLayout from "../AuthFormLayout";
+import FormField from "../FormField";
+import SubmitButton from "../SubmitButton";
 
 export default function RegisterPage() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -20,7 +20,7 @@ export default function RegisterPage() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -29,10 +29,12 @@ export default function RegisterPage() {
     try {
       const response = await register(username, email, password);
       login(response.token, response.user);
-      toast.success('Account created successfully!');
-      navigate('/');
+      toast.success("Account created successfully!");
+      navigate("/");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Registration failed');
+      toast.error(
+        error instanceof Error ? error.message : "Registration failed",
+      );
     } finally {
       setLoading(false);
     }

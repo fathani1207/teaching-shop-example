@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { LoadingSpinner } from '../components';
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { LoadingSpinner } from "../components";
 
 export default function AdminLayout() {
   const { user, isAuthenticated } = useAuth();
@@ -9,12 +9,12 @@ export default function AdminLayout() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
 
     if (!user?.is_staff) {
-      navigate('/');
+      navigate("/");
     }
   }, [user, isAuthenticated, navigate]);
 
