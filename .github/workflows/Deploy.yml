@@ -48,9 +48,9 @@ jobs:
       - name: Deploy to VM
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.AWS_HOST }}
-          username: ${{ secrets.AWS_USER }}
-          key: ${{ secrets.AWS_SSH_KEY }}
+          host: ${{secrets.AWS_HOST}}
+          username: ${{secrets.AWS_USER}}
+          key: ${{secrets.AWS_SSH_KEY_K}}
           script: |
             # login to GitHub Container Registry
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
