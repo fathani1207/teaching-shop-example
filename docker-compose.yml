@@ -1,0 +1,37 @@
+services:
+  backend:
+    # TODO 1: Set the build context to the backend directory
+    # Syntax: build: ./relative/path
+    build: ./backend
+    # TODO 2: Map port 8000 from container to host
+    # Syntax:
+    #   ports:
+    #     - "host_port:container_port"
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_HOST=db          # Service name = hostname!
+      - DATABASE_NAME=boutique
+      - DATABASE_USER=boutique
+      - DATABASE_PASSWORD=boutique
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: boutique
+      POSTGRES_USER: boutique
+      POSTGRES_PASSWORD: boutique
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
