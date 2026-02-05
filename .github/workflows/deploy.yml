@@ -130,7 +130,7 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
   
             # Change to the directory where your docker-compose.yml is located
-            cd ../../
+            cd /app
 
             docker compose pull
             docker compose up -d --remove-orphans
