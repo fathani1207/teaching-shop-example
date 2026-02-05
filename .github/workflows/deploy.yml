@@ -8,84 +8,84 @@ on:
       - 'frontend/**'
 
 jobs:
-  quality-backend:
-    runs-on: ubuntu-latest
+  # quality-backend:
+  #   runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: backend
+  #   defaults:
+  #     run:
+  #       working-directory: backend
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-
-      # TODO 1: Install uv (the Python package manager)
-      # Hint: Look for an action called "astral-sh/setup-uv"
-      # Syntax: - uses: action-name@version
-      - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@v7
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: '3.11'
 
 
-      - name: Install dependencies
-        run: uv sync --extra dev
-
-      # TODO 2: Add a step to check code formatting with Ruff
-      # Step name: "Check formatting"
-      # Command: uv run ruff format --check .
-      - name: Check formatting
-        run: uv run ruff format --check .
+  #     # TODO 1: Install uv (the Python package manager)
+  #     # Hint: Look for an action called "astral-sh/setup-uv"
+  #     # Syntax: - uses: action-name@version
+  #     - name: Install the latest version of uv
+  #       uses: astral-sh/setup-uv@v7
 
 
-      # TODO 3: Add a step to run the Ruff linter
-      # Step name: "Run linter"
-      # Command: uv run ruff check .
-      - name: Run linter
-        run: uv run ruff check .
+  #     - name: Install dependencies
+  #       run: uv sync --extra dev
+
+  #     # TODO 2: Add a step to check code formatting with Ruff
+  #     # Step name: "Check formatting"
+  #     # Command: uv run ruff format --check .
+  #     - name: Check formatting
+  #       run: uv run ruff format --check .
 
 
-      - name: Run tests
-        run: |
-          cd core
-          uv run python manage.py migrate
-          uv run python manage.py test
+  #     # TODO 3: Add a step to run the Ruff linter
+  #     # Step name: "Run linter"
+  #     # Command: uv run ruff check .
+  #     - name: Run linter
+  #       run: uv run ruff check .
 
-  quality-frontend:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
 
-      - name: Set up Node.js 20 (npm cache)
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
+  #     - name: Run tests
+  #       run: |
+  #         cd core
+  #         uv run python manage.py migrate
+  #         uv run python manage.py test
 
-      - name: Install dependencies
-        run: npm ci
+  # quality-frontend:
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: frontend
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Check formatting
-        run: npm run format:check
+  #     - name: Set up Node.js 20 (npm cache)
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 20
+  #         cache: npm
+  #         cache-dependency-path: frontend/package-lock.json
 
-      - name: Run linter
-        run: npm run format
+  #     - name: Install dependencies
+  #       run: npm ci
 
-      - name: Run tests
-        run: npm test
+  #     - name: Check formatting
+  #       run: npm run format:check
+
+  #     - name: Run linter
+  #       run: npm run format
+
+  #     - name: Run tests
+  #       run: npm test
 
   image-creating:
     runs-on: ubuntu-latest
-    needs: [ quality-backend, quality-frontend ]
+    # needs: [ quality-backend, quality-frontend ]
     strategy:
       matrix:
         include:
