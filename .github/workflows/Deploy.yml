@@ -57,5 +57,5 @@ jobs:
             # Navigate to the deployment directory
             cd ~/app
             # Pull the latest images and restart services
-            docker compose pull
-            docker compose up -d --remove-orphans
+            docker-compose pull
+            docker-compose up -d --remove-orphans
