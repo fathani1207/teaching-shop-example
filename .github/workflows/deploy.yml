@@ -118,3 +118,19 @@ jobs:
           file: ${{ matrix.dockerfile }}
           tags: ${{ matrix.tags }}
           push: true
+
+      - name: deploy to VM 
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_HOST_M }}
+          username: ${{ secrets.VM_USER_M }}
+          key: ${{ secrets.VM_SSH_KEY_M }}
+          script: |
+            # Log in to GHCR on the VM to pull the latest images
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+  
+            # Change to the directory where your docker-compose.yml is located
+            cd ../../
+
+            docker compose pull
+            docker compose up -d --remove-orphans
